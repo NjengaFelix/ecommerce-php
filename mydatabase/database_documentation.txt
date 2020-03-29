@@ -1,0 +1,27 @@
+Users
+There are 3 types of users
+1. Superuser (Admin)
+2. Editors
+3. Customers
+
+There are 3 default user groups
+1. Superuser group
+2. Editors
+3. Customers
+
+The is_super_user column differenciates the superuser and editors
+The editors are automatically added to the editors user group at admin sign up level
+The customers at sign up are automatically added to the customers group
+at the customer sign up level
+
+Product
+Products will be stored in different categories
+
+Connections to be remembered
+How does one know a certain category belongs to the store?
+Each category has a user_id(employee/admin) which shows he/she belongs to which store/branch
+How does one know a certain product belongs to which store?
+Each product is added by a user_id(employee/admin) which shows he/she belongs to which store/branch
+How does one know an order is for which store?
+Each product_id has a user_id(employee/admin) which shows the company/store
+ 

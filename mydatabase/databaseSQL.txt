@@ -1,0 +1,54 @@
+CREATE TABLE `ecommerce`.`auth_user` ( `user_id` INT NOT NULL AUTO_INCREMENT , `name` VARCHAR(255) NOT NULL , `gender` VARCHAR(20) NOT NULL , `email` VARCHAR(255) NOT NULL , `postal_address` VARCHAR(100) NULL , `postal_code` INT(50) NULL , `phoneNO` INT(50) NOT NULL , `username` VARCHAR(50) NOT NULL , `password` VARCHAR(50) NOT NULL , `is_super_user` BOOLEAN NOT NULL , `auth_group_id` INT NOT NULL , `store_id` INT NOT NULL , `membership_date` DATETIME NOT NULL , PRIMARY KEY (`user_id`), INDEX `auth_group_id` (`auth_group_id`), INDEX `store_id` (`store_id`)) ENGINE = InnoDB;
+
+//Table store
+CREATE TABLE `ecommerce`.`store` ( `store_id` INT NOT NULL AUTO_INCREMENT , `name` VARCHAR(255) NOT NULL , `email` VARCHAR(255) NOT NULL , `phoneNO` INT(50) NOT NULL , `postal_address` VARCHAR(255) NULL , `postal_code` INT(50) NULL , `physical_location` VARCHAR(100) NOT NULL , PRIMARY KEY (`store_id`)) ENGINE = InnoDB;
+
+//Foreign key store_id on auth_user
+ALTER TABLE `auth_user` ADD CONSTRAINT `fk_store_id` FOREIGN KEY (`store_id`) REFERENCES `store`(`store_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+//Table auth_group
+CREATE TABLE `ecommerce`.`auth_group` ( `auth_group_id` INT NOT NULL AUTO_INCREMENT , `name` VARCHAR(50) NOT NULL , `date_created` DATETIME NULL , `permission_id` INT NOT NULL , PRIMARY KEY (`auth_group_id`), UNIQUE `permission_id` (`permission_id`)) ENGINE = InnoDB;
+
+//Foreign key auth_group_id on auth_user
+ALTER TABLE `auth_user` ADD CONSTRAINT `fk_auth_group_id` FOREIGN KEY (`auth_group_id`) REFERENCES `auth_group`(`auth_group_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+//Table permissions
+CREATE TABLE `ecommerce`.`permissions` ( `permission_id` INT NOT NULL AUTO_INCREMENT , `per_add` BOOLEAN NOT NULL , `per_edit` BOOLEAN NOT NULL , `per_delete` BOOLEAN NOT NULL , `have_auth_access` BOOLEAN NOT NULL , PRIMARY KEY (`permission_id`)) ENGINE = InnoDB;
+
+//Foreign key permission_id on auth_group
+ALTER TABLE `auth_group` ADD CONSTRAINT `fk_permission_id` FOREIGN KEY (`permission_id`) REFERENCES `permissions`(`permission_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+//Table category
+CREATE TABLE `ecommerce`.`category` ( `category_id` INT NOT NULL AUTO_INCREMENT , `name` VARCHAR(50) NOT NULL , `publication_date` DATETIME NULL , `user_id` INT NOT NULL , PRIMARY KEY (`category_id`), INDEX `user_id` (`user_id`)) ENGINE = InnoDB;
+
+//Foreign key user_id on category
+ALTER TABLE `category` ADD CONSTRAINT `fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user`(`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+//Table product
+CREATE TABLE `ecommerce`.`product` ( `product_id` INT NOT NULL AUTO_INCREMENT , `image` BLOB NOT NULL , `name` VARCHAR(50) NOT NULL , `short_description` VARCHAR(100) NOT NULL , `long_description` VARCHAR(255) NOT NULL , `publication_date` DATETIME NULL , `category_id` INT NULL , `user_id` INT NOT NULL , PRIMARY KEY (`product_id`)) ENGINE = InnoDB;
+
+//Add index category_id on product
+ALTER TABLE `product` ADD INDEX(`category_id`);
+
+//Add index user_id on product
+ALTER TABLE `product` ADD INDEX(`user_id`);
+
+//Foreign key category_id on product
+ALTER TABLE `product` ADD CONSTRAINT `fk_category_id` FOREIGN KEY (`category_id`) REFERENCES `category`(`category_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+//Foreign key user_id on product
+ALTER TABLE `product` ADD CONSTRAINT `fk_user_id_added_product` FOREIGN KEY (`user_id`) REFERENCES `auth_user`(`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+//Table order
+CREATE TABLE `ecommerce`.`customer_order` ( `order_id` INT NOT NULL AUTO_INCREMENT , `quantity` INT NOT NULL , `order_date` DATE NOT NULL , `product_id` INT NOT NULL , `user_id` INT NOT NULL , PRIMARY KEY (`order_id`), INDEX `product_id` (`product_id`), INDEX `user_id` (`user_id`)) ENGINE = InnoDB;
+
+//Foreign key product_id on order
+ALTER TABLE `customer_order` ADD CONSTRAINT `fk_product_id` FOREIGN KEY (`product_id`) REFERENCES `product`(`product_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+//Foreign key user_id on order
+ALTER TABLE `customer_order` ADD CONSTRAINT `fk_user_id_customer` FOREIGN KEY (`user_id`) REFERENCES `auth_user`(`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+//Table session
+CREATE TABLE `ecommerce`.`session` ( `session_key` VARCHAR(40) NOT NULL , `data` TEXT NOT NULL , `expire_date` DATETIME NOT NULL , PRIMARY KEY (`session_key`)) ENGINE = InnoDB;
+
+
