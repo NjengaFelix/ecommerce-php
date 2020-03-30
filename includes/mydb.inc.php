@@ -1,23 +1,14 @@
 <?php
 /**
- * A class to create a connection to the database
+ * Using my sql procedurally
  */
-class mydb
-{
-  private $servername;
-  private $username;
-  private $password;
-  private $dbname;
+    $servername = "localhost";
+    $dBUsername = "root";
+    $dBPassword = "";
+    $dBName = "ecommerce";
 
-  protected function connect() {
-    $this->servername = "localhost";
-    $this->username = "root";
-    $this->password = "";
-    $this->dbname = "ecommerce"
+    $conn = mysqli_connect($servername,$dBUsername, $dBPassword, $dBName);
 
-    $conn = new mysqli($this->servername,$this->username, $this->password, $this->dbname);
-    return $conn;
-  }
-}
-
- ?>
+    if (!$conn) {
+      die("Connection failed: ".mysqli_connect_error());
+    }
