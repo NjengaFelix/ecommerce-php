@@ -47,22 +47,22 @@ require 'includes/mydb.inc.php';
        </div>
 
        <div class="main">
-         <div class="category_container">
+
 <?php
 	while($row = mysqli_fetch_array($result)) {
 	?>
-
+  <div class="category_container">
           <form class="category_card" method="post" action= "includes/category.inc.php">
-            <a href="product.php?cat_id=<?php echo $row["category_id"]; ?>"><img src="includes/category.inc.php?category_id=<?php echo $row["category_id"]; ?>" width="400"/></a>
+            <a href="product.php?cat_id=<?php echo $row["category_id"]; ?>"><img src="includes/category.inc.php?category_id=<?php echo $row["category_id"]; ?>" width="350"/></a>
             <p><h1><?php echo $row["name"]; ?></h1></p>
          </form>
-
+       </div>
 <?php
 	}
     mysqli_close($conn);
 ?>
 
-      </div>
+
        </div>
 
      </div>

@@ -19,7 +19,7 @@ require 'includes/mydb.inc.php';
       <?php
       	while($row = mysqli_fetch_array($result)) {
       	?>
-
+        <div class="product_container">
                 <form class="product_card" method="post" action= "">
                   <img src="includes/products.inc.php?product_id=<?php echo $row["product_id"]; ?>" width="300">
                   <h1><?php echo $row["name"]; ?></h1>
@@ -27,7 +27,7 @@ require 'includes/mydb.inc.php';
                   <p><?php echo $row["short_description"]; ?></p>
                   <p><button type="submit" name="add_to_cart">Add to cart</button></p>
                </form>
-
+             </div>
       <?php
       	}
           mysqli_close($conn);
