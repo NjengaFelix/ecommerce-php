@@ -30,7 +30,7 @@
     header("Location: login.php");
   }
    ?>
-<form method="post" action="includes/signup.inc.php">
+<form method="post" action="../includes/signupadmin.inc.php">
   <label for="uname">Name</label><br>
   <input type="text" name="uname">
   <br><br>

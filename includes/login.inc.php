@@ -24,13 +24,25 @@ if(empty($username_email) || empty($password)) {
         if($pwdCheck == false) {
           header("Location: ../login.php?error=wrongpass");
         }
-        else if($pwdCheck == true) {
+        else if($pwdCheck == true && $row['auth_group_id'] == 3) {
           //Session variable
           session_start();
           $_SESSION['userId'] = $row['user_id'];
           $_SESSION['username'] = $row['username'];
+          $_SESSION['group_id'] = $row['auth_group_id'];
+
 
           header("Location: ../index.php?login=success");
+        } else if($pwdCheck == true && $row['auth_group_id'] < 3) {
+
+          session_start();
+
+          $_SESSION['userId'] = $row['user_id'];
+          $_SESSION['username'] = $row['username'];
+          $_SESSION['group_id'] = $row['auth_group_id'];
+
+
+          header("Location: ../admin.php?login=success");
         }
       }
       else {

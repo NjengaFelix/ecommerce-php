@@ -13,6 +13,8 @@
         echo '<p class=signuperror>*Fill in all fields!</p>';
       } else if ($_GET['error'] == "wrongpass") {
         echo '<p class=signuperror>*Wrong password!</p>';
+      } else if ($_GET['error'] == "nouser") {
+        echo '<p class=signuperror>*Wrong username!</p>';
       }
     }
      ?>
